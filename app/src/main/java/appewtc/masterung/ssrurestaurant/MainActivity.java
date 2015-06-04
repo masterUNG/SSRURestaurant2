@@ -59,7 +59,18 @@ public class MainActivity extends AppCompatActivity {
         userString = userEditText.getText().toString().trim();
         passwordString = passwordEditText.getText().toString().trim();
 
-    }
+        //Check Zero
+        checkZero();
+
+    }   // clickLogin
+
+    private void checkZero() {
+
+        if (userString.equals("") || passwordString.equals("") ) {
+        } else {
+        }
+
+    }   // checkZero
 
 
     private void bindWidget() {
