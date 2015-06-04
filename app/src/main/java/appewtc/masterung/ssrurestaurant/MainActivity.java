@@ -9,6 +9,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Explicit
     private UserTABLE objUserTABLE;
+    private FoodTABLE objFoodTABLE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +18,19 @@ public class MainActivity extends AppCompatActivity {
 
         //Request Database
         objUserTABLE = new UserTABLE(this);
+        objFoodTABLE = new FoodTABLE(this);
+
+        //Test Add Value
+        testAddValue();
 
     }   // onCreate
+
+    private void testAddValue() {
+
+        objUserTABLE.addNewUser("testUser", "testPass", "testName");
+        objFoodTABLE.addFood("testFood", "1234");
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
