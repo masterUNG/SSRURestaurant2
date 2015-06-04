@@ -1,5 +1,7 @@
 package appewtc.masterung.ssrurestaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
@@ -67,10 +69,34 @@ public class MainActivity extends AppCompatActivity {
     private void checkZero() {
 
         if (userString.equals("") || passwordString.equals("") ) {
+
+            String strTitle = "Have Space";
+            String strMessage = "Please Fill All Every Blank";
+
+            //Show Negative Dialog
+            negativeDialog(strTitle, strMessage);
+
         } else {
         }
 
     }   // checkZero
+
+    private void negativeDialog(String strTitle, String strMessage) {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.icon_question);
+        objBuilder.setTitle(strTitle);
+        objBuilder.setMessage(strMessage);
+        objBuilder.setCancelable(false);
+        objBuilder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        objBuilder.show();
+
+    }   // negativeDialog
 
 
     private void bindWidget() {
