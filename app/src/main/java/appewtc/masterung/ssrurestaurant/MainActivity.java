@@ -1,5 +1,6 @@
 package appewtc.masterung.ssrurestaurant;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -38,10 +39,19 @@ public class MainActivity extends AppCompatActivity {
         //Test Add Value
         //testAddValue();
 
+        //Delete All Data
+        deleteAllData();
+
         //Synchronize JSON to SQLite
         synJSONtoSQLite();
 
     }   // onCreate
+
+    private void deleteAllData() {
+        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("ssru.db", MODE_PRIVATE, null);
+        objSqLiteDatabase.delete("userTABLE", null, null);
+        objSqLiteDatabase.delete("foodTABLE", null, null);
+    }
 
     private void synJSONtoSQLite() {
 
