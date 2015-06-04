@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,11 +28,16 @@ public class MainActivity extends AppCompatActivity {
     //Explicit
     private UserTABLE objUserTABLE;
     private FoodTABLE objFoodTABLE;
+    private EditText userEditText, passwordEditText;
+    private String userString, passwordString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Bind Widget
+        bindWidget();
 
         //Request Database
         objUserTABLE = new UserTABLE(this);
@@ -46,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
         synJSONtoSQLite();
 
     }   // onCreate
+
+    public void clickLogin(View view) {
+
+        userString = userEditText.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
+
+    }
+
+
+    private void bindWidget() {
+        userEditText = (EditText) findViewById(R.id.edtUser);
+        passwordEditText = (EditText) findViewById(R.id.edtPassword);
+    }
 
     private void deleteAllData() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("ssru.db", MODE_PRIVATE, null);
