@@ -35,6 +35,8 @@ public class FoodTABLE {
 
         if (objCursor != null) {
             objCursor.moveToFirst();
+
+            strPrice = new String[objCursor.getCount()];
             for (int i = 0; i < objCursor.getCount(); i++) {
                 strPrice[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_PRICE));
                 objCursor.moveToNext();
@@ -57,6 +59,7 @@ public class FoodTABLE {
         if (objCursor != null) {
             objCursor.moveToFirst();
 
+            strFood = new String[objCursor.getCount()];
             for (int i = 0; i < objCursor.getCount(); i++) {
 
                 strFood[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_FOOD));
@@ -68,7 +71,7 @@ public class FoodTABLE {
         objCursor.close();
 
         return strFood;
-    }
+    }   //readAllFood
 
 
     //Add New Food to foodTABLE
