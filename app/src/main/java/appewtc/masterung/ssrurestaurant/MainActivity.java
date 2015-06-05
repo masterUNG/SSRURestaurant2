@@ -2,6 +2,7 @@ package appewtc.masterung.ssrurestaurant;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
@@ -134,7 +135,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void myIntentToOrder() {
 
-    }
+        Intent objIntent = new Intent(MainActivity.this, OrderListView.class);
+        objIntent.putExtra("Name", nameString);
+        startActivity(objIntent);
+        finish();
+
+    }   // myIntent
 
     private void negativeDialog(String strTitle, String strMessage) {
 
