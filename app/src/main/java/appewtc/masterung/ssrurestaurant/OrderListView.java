@@ -15,18 +15,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class OrderListView extends AppCompatActivity {
 
@@ -141,7 +146,36 @@ public class OrderListView extends AppCompatActivity {
         Log.d("ssru", "Food = " + myFoodString);
         Log.d("ssru", "Item = " + itemString);
 
-    }
+
+        //Update Order to mySQl
+        updateOrderToMySQL();
+
+
+    }   //ShowLog
+
+    private void updateOrderToMySQL() {
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("isAdd", "true"));
+            objNameValuePairs.add(new BasicNameValuePair("Officer", nameString));
+            objNameValuePairs.add(new BasicNameValuePair("Desk", deskString));
+            objNameValuePairs.add(new BasicNameValuePair("Food", myFoodString));
+            objNameValuePairs.add(new BasicNameValuePair("Item", itemString));
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://swiftcodingthai.com/ssru3/php_add_data_restaurant.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+            Toast.makeText(OrderListView.this, "Update Order Success", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            Toast.makeText(OrderListView.this, "Cannot Update To Server", Toast.LENGTH_SHORT).show();
+        }
+
+    }   //updateOrderToMySQL
 
     private void synJSONtoSQLite() {
 
