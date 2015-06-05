@@ -1,5 +1,7 @@
 package appewtc.masterung.ssrurestaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -30,7 +34,7 @@ public class OrderListView extends AppCompatActivity {
     private TextView nameTextView;
     private Spinner deskSpinner;
     private ListView foodListView;
-    private String nameString;
+    private String nameString, deskString, myFoodString, itemString;
     private FoodTABLE objFoodTABLE;
 
     @Override
@@ -59,7 +63,7 @@ public class OrderListView extends AppCompatActivity {
 
     private void createListView() {
 
-         String[] strFood = objFoodTABLE.readAllFood();
+         final String[] strFood = objFoodTABLE.readAllFood();
          String[] strPrice = objFoodTABLE.readAllPrice();
         int intImageFood[] = new int[]{R.drawable.food1, R.drawable.food2, R.drawable.food3,
                 R.drawable.food4, R.drawable.food5, R.drawable.food6, R.drawable.food7,
@@ -76,7 +80,68 @@ public class OrderListView extends AppCompatActivity {
                 R.drawable.food48, R.drawable.food49, R.drawable.food50};
         FoodAdapter objFoodAdapter = new FoodAdapter(OrderListView.this, strFood, strPrice, intImageFood);
         foodListView.setAdapter(objFoodAdapter);
+
+        //OnListItemClick
+        foodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                myFoodString = strFood[i];
+
+                //Choose Item
+                chooseItem();
+
+            }   //event
+        });
+
+
+
     }   //createListView
+
+    private void chooseItem() {
+
+        CharSequence[] objCharSequences = {"1 set", "2 set", "3 set", "4 set", "5 set"};
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setTitle(myFoodString);
+        objBuilder.setSingleChoiceItems(objCharSequences, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                switch (i) {
+                    case 0:
+                        itemString = "1";
+                        break;
+                    case 1:
+                        itemString = "2";
+                        break;
+                    case 2:
+                        itemString = "3";
+                        break;
+                    case 3:
+                        itemString = "4";
+                        break;
+                    case 4:
+                        itemString = "5";
+                        break;
+                }
+
+                showLog();
+                dialogInterface.dismiss();
+
+            }   //event
+        });
+        objBuilder.show();
+
+    }   //chooseItem
+
+    private void showLog() {
+
+        Log.d("ssru", "Officer = " + nameString);
+        Log.d("ssru", "Desk = " + deskString);
+        Log.d("ssru", "Food = " + myFoodString);
+        Log.d("ssru", "Item = " + itemString);
+
+    }
 
     private void synJSONtoSQLite() {
 
@@ -150,9 +215,21 @@ public class OrderListView extends AppCompatActivity {
 
     private void createSpinnerDesk() {
 
-        String showAllDesk[] = getResources().getStringArray(R.array.desk);
+        final String showAllDesk[] = getResources().getStringArray(R.array.desk);
         ArrayAdapter<String> deskAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, showAllDesk);
         deskSpinner.setAdapter(deskAdapter);
+
+        deskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                deskString = showAllDesk[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                deskString = showAllDesk[0];
+            }
+        });
 
     }   // createSpinnerDesk
 
