@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private UserTABLE objUserTABLE;
     private FoodTABLE objFoodTABLE;
     private EditText userEditText, passwordEditText;
-    private String userString, passwordString;
+    private String userString, passwordString, truePasswordString, nameString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +77,64 @@ public class MainActivity extends AppCompatActivity {
             negativeDialog(strTitle, strMessage);
 
         } else {
-        }
+
+            //Check User
+            checkUser();
+
+        }   // if
 
     }   // checkZero
+
+    private void checkUser() {
+
+        try {
+
+            String strMyResult[] = objUserTABLE.searchUser(userString);
+            truePasswordString = strMyResult[2];
+            nameString = strMyResult[3];
+
+            Log.d("ssru", "Welcome ==> " + nameString);
+
+            //Check Password
+            checkPassword();
+
+        } catch (Exception e) {
+            negativeDialog("ไม่มี User", "ไม่มี " + userString + " ในฐานข้อมูลของเรา");
+        }
+
+    }   // checkUser
+
+    private void checkPassword() {
+
+        if (passwordString.equals(truePasswordString)) {
+            welcomeDialog();
+        } else {
+            negativeDialog("Password False", "Please Try Again Password False");
+        }
+
+    }   // checkPassword
+
+    private void welcomeDialog() {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.restaurant);
+        objBuilder.setTitle("Welcome");
+        objBuilder.setMessage("ยินดีต้อนรับ " + nameString + " สู่ระบบของเรา");
+        objBuilder.setCancelable(false);
+        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                myIntentToOrder();
+            }
+        });
+        objBuilder.show();
+
+    }   //welcome
+
+    private void myIntentToOrder() {
+
+    }
 
     private void negativeDialog(String strTitle, String strMessage) {
 
